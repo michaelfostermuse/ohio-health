@@ -22,6 +22,9 @@
 		6A2788FF27E686D900256A73 /* PlaybackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2788FE27E686D800256A73 /* PlaybackView.swift */; };
 		6A27890027E686D900256A73 /* PlaybackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2788FE27E686D800256A73 /* PlaybackView.swift */; };
 		6A27890127E686D900256A73 /* PlaybackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2788FE27E686D800256A73 /* PlaybackView.swift */; };
+		6A27890327E782E800256A73 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A27890227E782E800256A73 /* Router.swift */; };
+		6A27890427E782E800256A73 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A27890227E782E800256A73 /* Router.swift */; };
+		6A27890527E782E800256A73 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A27890227E782E800256A73 /* Router.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +59,7 @@
 		6A2788F827E622DE00256A73 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		6A2788FA27E6431400256A73 /* SpeechEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechEngine.swift; sourceTree = "<group>"; };
 		6A2788FE27E686D800256A73 /* PlaybackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackView.swift; sourceTree = "<group>"; };
+		6A27890227E782E800256A73 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +119,7 @@
 				6A2788D127E6190000256A73 /* Preview Content */,
 				6A2788FA27E6431400256A73 /* SpeechEngine.swift */,
 				6A2788FE27E686D800256A73 /* PlaybackView.swift */,
+				6A27890227E782E800256A73 /* Router.swift */,
 			);
 			path = "ohio-health";
 			sourceTree = "<group>";
@@ -285,6 +290,7 @@
 			files = (
 				6A2788FB27E6431400256A73 /* SpeechEngine.swift in Sources */,
 				6A2788CE27E618FE00256A73 /* ContentView.swift in Sources */,
+				6A27890327E782E800256A73 /* Router.swift in Sources */,
 				6A2788CC27E618FE00256A73 /* ohio_healthApp.swift in Sources */,
 				6A2788FF27E686D900256A73 /* PlaybackView.swift in Sources */,
 			);
@@ -294,6 +300,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A27890427E782E800256A73 /* Router.swift in Sources */,
 				6A2788DD27E6190000256A73 /* ohio_healthTests.swift in Sources */,
 				6A27890027E686D900256A73 /* PlaybackView.swift in Sources */,
 				6A2788FC27E6431400256A73 /* SpeechEngine.swift in Sources */,
@@ -306,6 +313,7 @@
 			files = (
 				6A2788FD27E6431400256A73 /* SpeechEngine.swift in Sources */,
 				6A2788E727E6190000256A73 /* ohio_healthUITests.swift in Sources */,
+				6A27890527E782E800256A73 /* Router.swift in Sources */,
 				6A2788E927E6190000256A73 /* ohio_healthUITestsLaunchTests.swift in Sources */,
 				6A27890127E686D900256A73 /* PlaybackView.swift in Sources */,
 			);

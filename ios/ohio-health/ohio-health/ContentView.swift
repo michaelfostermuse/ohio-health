@@ -20,7 +20,6 @@ struct ContentView: View {
     @State private var yearOfJoining: String = ""
     @StateObject var speechEngine = SpeechEngine()
     @State private var isRecording = false
-    //private var player: AVPlayer { AVPlayer.sharedDingPlayer }
     
     enum HighlightTag {
             case none, first, second, third
@@ -29,6 +28,9 @@ struct ContentView: View {
     @State private var highlighted = HighlightTag.none
     
     fileprivate func processVoiceTap(inputValue: inout String) {
+        
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+
         if isRecording == false {
             speechEngine.reset()
             inputValue = ""
@@ -44,52 +46,64 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                Text("First Page")
-                    .padding()
-                HStack {
-                    Text("First")
-                        .padding()
-                    TextField(text: $userName, prompt: Text("Required")) {
-                            Text("Username")
-                        }
-                    Button("Voice") {
-                        highlighted = .first
-                        processVoiceTap(inputValue: &userName)
-                    }.padding().buttonStyle(ProgressButtonStyle(isLoading: isRecording))
+            ScrollView(.vertical) {
+                VStack {
+                    Label("First Page", systemImage: "person.crop.circle")
+                        .font(.title)
+                    Spacer().padding()
+                    HStack {
+                        Text("First Name")
+                            .lineLimit(nil)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 5)
+                        TextField(text: $userName, prompt: Text("Required")) {
+                                Text("Username")
+                            }
+                        Button("Voice") {
+                            highlighted = .first
+                            
+                            processVoiceTap(inputValue: &userName)
+                        }.padding().buttonStyle(ProgressButtonStyle(isLoading: isRecording))
+                    }
+                    Spacer().padding()
+                    HStack {
+                        Text("City Name")
+                            .lineLimit(nil)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 5)
+                        TextField(text: $cityName, prompt: Text("Required")) {
+                                Text("Username")
+                            }
+                        Button("Voice") {
+                            highlighted = .second
+                            processVoiceTap(inputValue: &cityName)
+                        }.padding().buttonStyle(ProgressButtonStyle(isLoading: isRecording))
+                    }
+                    Spacer().padding()
+                    HStack {
+                        Text("Year of Joining")
+                            .lineLimit(nil)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 5)
+                        TextField(text: $yearOfJoining, prompt: Text("Required")) {
+                                Text("Username")
+                            }
+                        Button("Voice") {
+                            highlighted = .third
+                            processVoiceTap(inputValue: &yearOfJoining)
+                        }.padding().buttonStyle(ProgressButtonStyle(isLoading: isRecording))
+                    }
+                    Spacer().padding()
+                    NavigationLink(destination: SecondView()) {
+                                        Text("Next")
+                                    }
+                                    .navigationTitle("User Details")
+                }.onAppear {
+                    print("ContentView appeared!")
+                    askUserPermission()
+                }.onDisappear {
+                    print("ContentView disappeared!")
                 }
-                HStack {
-                    Text("City Name")
-                        .padding()
-                    TextField(text: $cityName, prompt: Text("Required")) {
-                            Text("Username")
-                        }
-                    Button("Voice") {
-                        highlighted = .second
-                        processVoiceTap(inputValue: &cityName)
-                    }.padding().buttonStyle(ProgressButtonStyle(isLoading: isRecording))
-                }
-                HStack {
-                    Text("Year of Joining")
-                        .padding()
-                    TextField(text: $yearOfJoining, prompt: Text("Required")) {
-                            Text("Username")
-                        }
-                    Button("Voice") {
-                        highlighted = .third
-                        processVoiceTap(inputValue: &yearOfJoining)
-                    }.padding().buttonStyle(ProgressButtonStyle(isLoading: isRecording))
-                }
-                
-                NavigationLink(destination: SecondView()) {
-                                    Text("Next")
-                                }
-                                .navigationTitle("User Details")
-            }.onAppear {
-                print("ContentView appeared!")
-                askUserPermission()
-            }.onDisappear {
-                print("ContentView disappeared!")
             }
         }.navigationTitle("Ohio Health")
     }
@@ -127,14 +141,6 @@ struct ContentView: View {
               }
            }
     }
-    
-    var fontColor: Color {
-            return !isRecording ? .white : .black
-        }
-    
-    var backgroundColor: Color {
-        return !isRecording ? .blue : .red
-        }
 }
 
 
