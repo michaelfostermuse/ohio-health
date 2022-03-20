@@ -13,7 +13,7 @@ import Speech
 struct ContentView: View {
     
     private let audioEngine = AVAudioEngine()
-    private  let speech = SFSpeechRecognizer()
+    private let speech = SFSpeechRecognizer()
     
     @State private var userName: String = ""
     @State private var cityName: String = ""
@@ -25,7 +25,7 @@ struct ContentView: View {
             case none, first, second, third
         }
 
-    @State private var highlighted = HighlightTag.none
+    private var highlighted = HighlightTag.none
     
     fileprivate func processVoiceTap(inputValue: inout String) {
         
@@ -53,6 +53,7 @@ struct ContentView: View {
                     Spacer().padding()
                     HStack {
                         Text("First Name")
+                            .frame(width: 80)
                             .lineLimit(nil)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 5)
@@ -60,14 +61,13 @@ struct ContentView: View {
                                 Text("Username")
                             }
                         Button("Voice") {
-                            highlighted = .first
-                            
                             processVoiceTap(inputValue: &userName)
-                        }.padding().buttonStyle(ProgressButtonStyle(isLoading: isRecording))
+                        }.padding()
                     }
                     Spacer().padding()
                     HStack {
                         Text("City Name")
+                            .frame(width: 80)
                             .lineLimit(nil)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 5)
@@ -75,13 +75,13 @@ struct ContentView: View {
                                 Text("Username")
                             }
                         Button("Voice") {
-                            highlighted = .second
                             processVoiceTap(inputValue: &cityName)
-                        }.padding().buttonStyle(ProgressButtonStyle(isLoading: isRecording))
+                        }.padding()
                     }
                     Spacer().padding()
                     HStack {
                         Text("Year of Joining")
+                            .frame(width: 80)
                             .lineLimit(nil)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 5)
@@ -89,61 +89,83 @@ struct ContentView: View {
                                 Text("Username")
                             }
                         Button("Voice") {
-                            highlighted = .third
                             processVoiceTap(inputValue: &yearOfJoining)
-                        }.padding().buttonStyle(ProgressButtonStyle(isLoading: isRecording))
+                        }.padding()
                     }
                     Spacer().padding()
-                    NavigationLink(destination: SecondView()) {
+                    NavigationLink(destination: PlaybackView()) {
                                         Text("Next")
                                     }
                                     .navigationTitle("User Details")
                 }.onAppear {
                     print("ContentView appeared!")
+                    setupApp()
                     askUserPermission()
                 }.onDisappear {
+                    storeUser()
                     print("ContentView disappeared!")
                 }
             }
         }.navigationTitle("Ohio Health")
     }
     
+    private func setupApp() {
+        
+        if Storage.fileExists("users.json", in: .documents) {
+            let usersFromDisk = Storage.retrieve("users.json", from: .documents, as: [User].self)
+            if usersFromDisk.count > 0 {
+                Storage.currentUser = usersFromDisk[0]
+                guard let userName = Storage.currentUser?.firstName,
+                      let city = Storage.currentUser?.city,
+                      let year = Storage.currentUser?.year else {
+                          return
+                      }
+                self.userName = userName
+                self.cityName = city
+                self.yearOfJoining = year
+                
+            }
+        }
+    }
+    
+    private func storeUser() {
+        var users = [User]()
+
+        let newUser = User(firstName: self.userName, city: self.cityName, year: self.yearOfJoining)
+        users.append(newUser)
+
+        Storage.store(users, to: .documents, as: "users.json")
+    }
+    
     private func askUserPermission() {
         print("Asking user permission")
         // Make the authorization request
-           SFSpeechRecognizer.requestAuthorization { authStatus in
+        SFSpeechRecognizer.requestAuthorization { authStatus in
 
-           // The authorization status results in changes to the
+           // If the authorization status results in changes to the
            // app’s interface, so process the results on the app’s
            // main queue.
               OperationQueue.main.addOperation {
-                  print(authStatus)
                   
-//                 switch authStatus {
-//                    case .authorized:
-//                       self.recordButton.isEnabled = true
-//
-//                    case .denied:
-//                       self.recordButton.isEnabled = false
-//                       self.recordButton.setTitle("User denied access
-//                                   to speech recognition", for: .disabled)
-//
-//                    case .restricted:
-//                       self.recordButton.isEnabled = false
-//                       self.recordButton.setTitle("Speech recognition
-//                               restricted on this device", for: .disabled)
-//
-//                    case .notDetermined:
-//                       self.recordButton.isEnabled = false
-//                       self.recordButton.setTitle("Speech recognition not yet
-//                                              authorized", for: .disabled)
-//                 }
+                 switch authStatus {
+                    case .authorized:
+                       print("authorized")
+
+                    case .denied:
+                     print("denied")
+
+                    case .restricted:
+                     print("restricted")
+
+                    case .notDetermined:
+                     print("notDetermined")
+                 @unknown default:
+                     print("unknown")
+                 }
               }
            }
     }
 }
-
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
@@ -153,7 +175,6 @@ struct ContentView_Previews: PreviewProvider {
 
 struct ProgressButtonStyle: ButtonStyle {
     let isLoading: Bool
-
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .opacity(isLoading ? 0 : 1)
@@ -164,29 +185,3 @@ struct ProgressButtonStyle: ButtonStyle {
             }
     }
 }
-
-
-struct RecordingButtonStyle: ButtonStyle {
-  func makeBody(configuration: Configuration) -> some View {
-    configuration.label
-      .font(.title)
-      .foregroundColor(.white)
-      .padding()
-      .background(Color.red)
-      .clipShape(RoundedRectangle(cornerRadius: 20))
-  }
-}
-
-struct DefaultButtonStyle: ButtonStyle {
-  func makeBody(configuration: Configuration) -> some View {
-    configuration.label
-      .font(.title)
-      .foregroundColor(.white)
-      .padding()
-      .background(Color.blue)
-      .clipShape(RoundedRectangle(cornerRadius: 20))
-  }
-}
-
-
-
