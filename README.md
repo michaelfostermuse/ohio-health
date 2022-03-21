@@ -1,7 +1,7 @@
 # Ohio Health iOS Speech recognition pilot.
 
 This repository is an example implementation of iOS client use of the Speech framework. It is written in Swift 5.x using the SwiftUI canvas.
-The ohio-health sample app should be run on an iOS physical device as the Speech framework is not available form the simulator.
+The ohio-health sample app should be run on an iOS physical device as the Speech framework is not available on the simulator.
 
 ![IMG_5624](https://user-images.githubusercontent.com/2362373/159340307-be6c41a9-fc83-4b9f-97dc-f3c05bc8448c.PNG)
 
