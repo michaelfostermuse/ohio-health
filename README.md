@@ -26,3 +26,5 @@ Figure 3. Note fields are not populated until tapping the Retrieve Data button.
 Figure 4.  Fields are populated from disk and can be audibly played by tapping any Translate button.
 
 
+Video can be seen here.
+https://www.dropbox.com/s/ijh5um3wm7qa4ng/RPReplay_Final1647957396.MP4?dl=0
